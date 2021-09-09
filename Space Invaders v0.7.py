@@ -2,11 +2,10 @@ import pygame
 import random
 import math
 import sys
-import time
 
 
 from pygame import mixer
-from pygame.constants import KEYDOWN, K_ESCAPE, K_KP1, MOUSEBUTTONDOWN, NUMEVENTS, QUIT, K_e
+from pygame.constants import KEYDOWN, K_ESCAPE, MOUSEBUTTONDOWN, QUIT
 
 pygame.init()
 
@@ -27,10 +26,6 @@ header_font = pygame.font.Font(
     "bin/LuckiestGuy.ttf",
     64,
 )
-header_font1 = pygame.font.Font(
-    "bin/LuckiestGuy.ttf",
-    42,
-)
 sub_header_font = pygame.font.Font(
     "bin/LuckiestGuy.ttf",
     16,
@@ -48,39 +43,29 @@ opt_font_1 = pygame.font.Font(
     28,
 )
 
-bullet_Sound = mixer.Sound("bin/laser.wav")
+bullet_Sound = mixer.Sound(
+    "bin/laser.wav"
+)
 
-hit_Sound = mixer.Sound("bin/explosion.mp3")
+hit_Sound = mixer.Sound(
+    "bin/explosion.mp3"
+)
 
 
 def esc():
-    esc_text = sub_header_font.render("ESC = Back", True, (242, 242, 242))
-    screen.blit(esc_text, (700, 560))
+    esc_text = opt_font_1.render("ESC = Back", True, (242, 242, 242))
+    screen.blit(esc_text, (625, 550))
 
 
 def ver():
-    ver_text = sub_header_font.render("V0.9 - ALPHA", True, (242, 242, 242))
-    ver_text1 = sub_header_font.render("(EOL)", True, (242, 242, 0))
-    screen.blit(ver_text, (660, 10))
-    screen.blit(ver_text1, (680, 30))
-    # CHANGELOG : GOAL
-    # A pre game introduction, like some type of story. == DONE
-    # Power-Ups system == FAILED
-        # 2x Score Multiplier : Random occurence and duration = 5s
-        # Freeze : Freezes enemies for 5s, makes it easier for the player to shoot them
-        # Rampage : Increased fire rate for 10s, dump em ammunation
-        # Fatality : Instant finish all the aliens .
-        # An economy system to purchase powerups during game
-            # Freeze : 250 pts
-            # Fatality : 1000 pts
-            # Rampage : 500 pts
-    # Add Obstacles : Meteors : DONE
+    ver_text = sub_header_font.render("V0.8 - ALPHA (EARLY ACCESS)", True, (242, 242, 242))
+    screen.blit(ver_text, (575, 10))
 
 
-logo = pygame.image.load("bin/logo.png")
+logo = pygame.image.load(
+    "bin/logo.png"
+)
 logo = pygame.transform.scale(logo, (350, 125))
-
-click = False
 
 
 def menu():
@@ -110,10 +95,10 @@ def menu():
                 game()
         if button_2.collidepoint((mx, my)):
             if click:
-                about()
+                options()
         if button_3.collidepoint((mx, my)):
             if click:
-                options()
+                credits()
 
         pygame.draw.rect(screen, (99, 212, 0), button_1)
         pygame.draw.rect(screen, (255, 50, 134), button_2)
@@ -124,11 +109,11 @@ def menu():
             screen.blit(btn_1_text, (340, 210))
 
         def menu_btn_2():
-            btn_2_text = btn_font.render("About", True, (242, 242, 242))
+            btn_2_text = btn_font.render("Options", True, (242, 242, 242))
             screen.blit(btn_2_text, (315, 310))
 
         def menu_btn_3():
-            btn_3_text = btn_font.render("Options", True, (242, 242, 242))
+            btn_3_text = btn_font.render("Credits", True, (242, 242, 242))
             screen.blit(btn_3_text, (325, 410))
 
         click = False
@@ -153,96 +138,11 @@ def menu():
         pygame.display.update()
 
 
-click = False
-
-
-def about():
-    running = True
-
-    playerImg = pygame.image.load("bin/player.png")
-    playerX = 370
-    playerY = 480
-    playerX_change = 0
-
-    def player(x, y):
-        screen.blit(playerImg, (x, y))
-
-    def intro_button():
-        intro_btn_text = btn_font.render("ACCEPT", True, (31, 31, 31))
-        screen.blit(intro_btn_text, (340, 410))
-
-    def intro_head_text():
-        head_text = header_font1.render("ATTENTION!", True, (242, 242, 242))
-        screen.blit(head_text, (280, 120))
-
-    def intro_text():
-        intro_text = opt_font_1.render("Hey There,", True, (242, 242, 242))
-        intro_text1 = opt_font_1.render(
-            "We need help! Our mother ship is broken and there's", True, (242, 242, 242)
-        )
-        intro_text2 = opt_font_1.render(
-            "an alien attack outside. Can you please go outside", True, (242, 242, 242)
-        )
-        intro_text3 = opt_font_1.render(
-            "and slow them down, while we fix the ship in here.", True, (242, 242, 242)
-        )
-        intro_text4 = opt_font_1.render("Please help us!", True, (242, 242, 242))
-        screen.blit(intro_text, (40, 200))
-        screen.blit(intro_text1, (40, 240))
-        screen.blit(intro_text2, (40, 280))
-        screen.blit(intro_text3, (40, 320))
-        screen.blit(intro_text4, (40, 360))
-
-
-    while running:
-        def watermark_text():
-            wm = opt_font_1.render("keshaav.exe on insta :P", True, (235, 0, 41))
-            screen.blit(wm, (20,550))
-
-        # screen.fill((0, 0, 0))  # background fill color
-
-        screen.blit(backgroundImg, (0, 0))  # Background Image
-
-        mx, my = pygame.mouse.get_pos()
-
-        button_1 = pygame.Rect(325, 400, 125, 50)
-        if button_1.collidepoint((mx, my)):
-            if click:
-                running = False
-
-        pygame.draw.rect(screen, (255, 255, 0), button_1)
-
-        click = False
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
-                    running = False
-            if event.type == MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    click = True
-
-        watermark_text()
-        ver()
-        player(playerX, playerY)
-        intro_button()
-        intro_head_text()
-        intro_text()
-        esc()
-        pygame.display.update()
-
-
-click = False
-
-
-click = False
-
-
 def game():
     # player
-    playerImg = pygame.image.load("bin/player.png")
+    playerImg = pygame.image.load(
+        "bin/player.png"
+    )
     playerX = 370
     playerY = 480
     playerX_change = 0
@@ -256,29 +156,20 @@ def game():
     num_of_enemies = 6
 
     for i in range(num_of_enemies):
-        enemyImg.append(pygame.image.load("bin/enemy.png"))
+        enemyImg.append(
+            pygame.image.load(
+                "bin/enemy.png"
+            )
+        )
         enemyX.append(random.randint(0, 735))
         enemyY.append(random.randint(50, 150))
         enemyX_change.append(2)
         enemyY_change.append(40)
 
-    # obs
-    meteorImg = []
-    meteorX = []
-    meteorY = []
-    meteorX_change = []
-    meteorY_change = []
-    num_of_meteors = 6
-
-    for i in range(num_of_meteors):
-        meteorImg.append(pygame.image.load("bin/meteor.png"))
-        meteorX.append(random.randint(0, 800))
-        meteorY.append(random.randint(-200, -100))
-        meteorX_change.append(10)
-        meteorY_change.append(4)
-
     # bullet
-    bulletImg = pygame.image.load("bin/bullet.png")
+    bulletImg = pygame.image.load(
+        "bin/bullet.png"
+    )
     global bullet_state
     bullet_state = "ready"
     bulletX = 0
@@ -290,9 +181,6 @@ def game():
 
     # score
     score_value = 0
-
-    # points
-    pts_value = 0
 
     font = pygame.font.Font(
         "bin/LuckiestGuy.ttf",
@@ -316,29 +204,15 @@ def game():
         score = font.render("Score :" + str(score_value), True, (242, 242, 242))
         screen.blit(score, (x, y))
 
-    # economy system
-    def show_pts(x, y):
-        pts = font.render("Points :" + str(pts_value), True, (242, 242, 242))
-        screen.blit(pts, (x, y))
-
     def game_over_text():
         over_text = over_font.render("GAME OVER", True, (242, 242, 242))
         screen.blit(over_text, (250, 250))
-
-    def upgrade_text():
-        upgrade_text = opt_font_1.render("2x FIRE RATE - 250 pts", True, (242, 242, 0))
-        upgrade_text1 = sub_header_font.render("NUMPAD 1 to buy", True, (242, 242, 0))
-        screen.blit(upgrade_text, (500, 540))
-        screen.blit(upgrade_text1, (650, 570))
 
     def player(x, y):
         screen.blit(playerImg, (x, y))
 
     def enemy(x, y, i):
         screen.blit(enemyImg[i], (x, y))
-
-    def meteor(x, y, i):
-        screen.blit(meteorImg[i], (x, y))
 
     def fire_bullet(x, y):
         global bullet_state
@@ -354,48 +228,20 @@ def game():
         else:
             return False
 
-    def isCollision2(meteorX, meteorY, playerX, playerY):
-        distance = math.sqrt(
-            (math.pow(meteorX - playerX, 2)) + (math.pow(meteorY - playerY, 2))
-        )
-        if distance < 27:   
-            return True
-        else:
-            return False
-
     # GAMELOOP
     running = True
     while running:
 
         screen.blit(backgroundImg, (0, 0))  # Background Image
 
-        click = False
         for event in pygame.event.get():
             if event.type == QUIT:
-                running = False
-
-            timeout = 5
-            timeout_start = time.time()
-
-
+                pygame.quit()
+                sys.exit()
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
                     running = False
-            if event.type == KEYDOWN:
-                if event.key == K_KP1:
-                    if bulletY_change < 30:
-                        if pts_value >= 250:
-                            pts_value = pts_value - 250
-                            bulletY_change = 30         
-                            if bulletY_change == 30:
-                                def upgrade_text():
-                                    upgrade_text = opt_font_1.render("2x FIRE RATE - Bought", True, (242, 242, 0))
-                                    screen.blit(upgrade_text, (500, 550))
-                        elif pts_value < 250:
-                            pass
 
-                            
-            
             # if keystroke is pressed check whether its righ tor left
             if event.type == pygame.KEYDOWN:
                 # print("Keystroke has been pressed")
@@ -406,11 +252,12 @@ def game():
                     # print("Right arrow is pressed ")
                     playerX_change = 4
                 if event.key == pygame.K_SPACE:
+                    # print("Space bar is pressed ")
                     if bullet_state == "ready":
                         bulletX = playerX
                         bullet_Sound.set_volume(0.8)
                         bullet_Sound.play()
-                        fire_bullet(bulletX, bulletY)                    
+                        fire_bullet(bulletX, bulletY)
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                     playerX_change = 0
@@ -468,29 +315,6 @@ def game():
                 enemyX_change[i] = -2
                 enemyY[i] += enemyY_change[i]
 
-            # meteor movement
-            meteorY[i] += meteorY_change[i]
-
-            if score_value >= 25:
-                if meteorY[i] <= 800:
-                    meteorY_change[i] = 1
-                    meteorY[i] += meteorY_change[i]
-                if meteorY[i] >= random.randint(700, 800):
-                    meteorX[i] = random.randint(0, 800)
-                    meteorY[i] = random.randint(-200, 0)
-                meteor(meteorX[i], meteorY[i], i)
-                collision2 = isCollision2(meteorX[i], meteorY[i], playerX, playerY)
-                if collision2:
-                    with open(
-                        "bin/hi-score.txt",
-                        "w",
-                    ) as f:
-                        f.write(str(hi_score))
-                    for j in range(num_of_enemies):
-                        enemyY[j] = 2000
-                    game_over_text()
-                    break
-
             # collison
             collision = isCollision(enemyX[i], enemyY[i], bulletX, bulletY)
             if collision:
@@ -499,15 +323,8 @@ def game():
                 bulletY = 480
                 bullet_state = "ready"
                 score_value += 1
-                pts_value += 5 * random.randint(0, 2)
                 enemyX[i] = random.randint(0, 735)
                 enemyY[i] = random.randint(50, 150)
-                # meteorX[i] = random.randint(0, 800)
-                # meteorY[i] = random.randint(-200, 0)
-
-            enemy(enemyX[i], enemyY[i], i)
-
-            
 
             if score_value >= 25:
                 if enemyX[i] <= 0:
@@ -517,6 +334,8 @@ def game():
                     enemyX_change[i] = -2.5
                     enemyY[i] += enemyY_change[i]
 
+            enemy(enemyX[i], enemyY[i], i)
+
         # bullet movement
         if bulletY <= 0:
             bulletY = 480
@@ -524,19 +343,12 @@ def game():
         if bullet_state == "fire":
             fire_bullet(bulletX, bulletY)
             bulletY -= bulletY_change
-
-        
         ver()
-        # esc()
-        upgrade_text()
+        esc()
         player(playerX, playerY)
         show_score(textX, textY)
-        show_pts(20, 550)
         high_score(textX, textY + 30)
         pygame.display.update()
-
-
-click = False
 
 
 def options():
@@ -604,6 +416,7 @@ def options():
 
         pygame.draw.rect(screen, (165, 50, 255), button_1)
         pygame.draw.rect(screen, (255, 50, 134), button_2)
+
         pygame.draw.rect(screen, (255, 50, 134), button_3)
 
         click = False
@@ -625,6 +438,43 @@ def options():
         reset_text()
         on_text()
         off_text()
+        pygame.display.update()
+
+
+insta = pygame.image.load(
+    "bin/insta.png"
+)
+insta = pygame.transform.scale(insta, (72, 72))
+
+
+def credits():
+    running = True
+    while running:
+        screen.fill((0, 0, 0))
+
+        screen.blit(backgroundImg, (0, 0))  # Background Image
+
+        def credit():
+            btn_3_text = btn_font.render("keshaav.exe", True, (242, 242, 242))
+            screen.blit(btn_3_text, (350, 275))
+
+        screen.blit(insta, (250, 250))
+
+        click = False
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    running = False
+            if event.type == MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+
+        ver()
+        esc()
+        credit()
         pygame.display.update()
 
 
