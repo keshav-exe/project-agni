@@ -1,3 +1,3 @@
-# space-invaders
+# Space-Invaders Clone
 
-Space Invaders clone based on pygame (python3 library).
+A Space Invaders (1978) clone based on Python3 using the library PyGame.
