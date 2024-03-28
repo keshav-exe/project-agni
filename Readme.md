@@ -2,7 +2,7 @@
 
 ## Overview
 
-**Project AGNI** is a 2D shooter game developed using Pygame in Python by **Keshav Bagaade**. Originally an experimental Space Invaders Clone, it has now evolved into an intense 2D shooter.
+**Project AGNI** is a 2D shooter game developed using Pygame in Python. Originally an experimental Space Invaders Clone, it has now evolved into an intense 2D shooter.
 
 **Please note that this project is experimental, unfinished, contains several bugs, and there are no plans for future support.** Despite its incomplete status, you can still immerse yourself in a fast-paced gaming experience filled with action-packed shooting, vibrant graphics, and thrilling gameplay. Battle against enemies, survive waves, and compete for high scores in this evolving Pygame creation.
 
